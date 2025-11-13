@@ -46,11 +46,13 @@ async function displayCounties() {
 
 //checking whether the username is available
 async function checkUsername() {
-    let username = document.querySelector("#username").value;
+    let username = document.querySelector("#username").value.trim();
     let url = `https://csumb.space/api/usernamesAPI.php?username=${username}`;
     let response = await fetch(url);
     let data = await response.json();
     let usernameError = document.querySelector("#usernameError")
+
+    const available = (data?.available === true || data?.available === "true" || data?.available === 1 || data?.available === "1");
 
     if (data.available) {
         usernameError.innerHTML = " Username available!";
