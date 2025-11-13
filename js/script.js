@@ -52,9 +52,12 @@ async function checkUsername() {
     let data = await response.json();
     let usernameError = document.querySelector("#usernameError")
 
-    const available = (data?.available === true || data?.available === "true" || data?.available === 1 || data?.available === "1");
+    const available = (data?.available === true) ||
+                    (data?.available === "true") ||
+                    (data?.available === 1) ||
+                    (data?.available === "1");
 
-    if (data.available) {
+    if (available) {
         usernameError.innerHTML = " Username available!";
         usernameError.style.color = "green";
     } else {
@@ -62,11 +65,12 @@ async function checkUsername() {
         usernameError.style.color = "red";
     }
 
-    return !!data.available;
+    return available;
 }
 
 //validating form data
 async function validateForm(e){
+    e.preventDefault();
     let isValid = true;
     let username = document.querySelector("#username").value;
     if (username.length === 0) {
@@ -90,8 +94,8 @@ async function validateForm(e){
 
     if (!(await checkUsername())) isValid = false;
 
-    if (!isValid) {
-    e.preventDefault();
+    if (isValid) {
+    e.target.submit();
     }
 }
 
